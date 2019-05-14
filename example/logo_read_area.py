@@ -24,19 +24,7 @@ if plc.get_connected():
     
     # write some values in VM addresses between 0 and 100
     
-    value_1a = 0b00000001
-    value_2 = 480
-    
-    size = 8
-    wordlen = S7WLByte
-    type_ = snap7.snap7types.wordlen_to_ctypes[wordlen]
-    data = (type_ * size)()
-    area = S7AreaDB
-    db_number = 1
-
-    result = plc.library.Cli_ReadArea(plc.pointer, area, db_number, 32,size, wordlen, byref(data))
-    print(result)
-    print(bytearray(data)) 
+    print(plc.read_area(32,8)) 
     
 else:
     logger.error("Conncetion failed")

@@ -82,6 +82,25 @@ class Logo(object):
         result = self.library.Cli_Connect(self.pointer)
         check_error(result, context="client") 
         return result
+    
+    def read_area(self, start, size):
+        """
+        Reads from VM area of Siemens Logo
+        
+        :param start: start byte of VM
+        :param size: bytes to read
+        :returns: bytearray
+        """
+        wordlen = snap7types.S7WLByte
+        type_ = snap7types.wordlen_to_ctypes[wordlen]
+        data = (type_ * size)()
+        area = snap7types.S7AreaDB
+        db_number = 1
+
+        logger.debug("start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
+        result = self.library.Cli_ReadArea(self.pointer, area, db_number, start, size, wordlen, byref(data))
+        check_error(result, context="client")
+        return bytearray(data)
 
     def read(self, vm_address):
         """
