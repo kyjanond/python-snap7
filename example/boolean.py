@@ -17,25 +17,27 @@ https://github.com/gijzelaerr/python-snap7/blob/master/example/
 the minimun amount of data being read or written to a plc is 1 byte.
 """
 import snap7
+import binascii
 
 plc = snap7.client.Client()
-plc.connect('192.168.200.24', 0, 3)
+plc.connect('172.31.1.10', 0, 0)
 
 # In this example boolean in DB 31 at byte 120 and bit 5 is changed. = 120.5 
 
-reading = plc.db_read(31, 120, 1)    # read 1 byte from db 31 staring from byte 120
-snap7.util.set_bool(reading, 0, 5)   # set a value of fifth bit
-plc.db_write(reading, 31, 120, 1)    # write back the bytearray and now the boolean value is changed 
+reading = plc.ab_read(20,1)    # read 1 byte from db 31 staring from byte 120
+print(binascii.hexlify(reading))
+#snap7.util.set_bool(reading, 0, 5)   # set a value of fifth bit
+#plc.db_write(reading, 31, 120, 1)    # write back the bytearray and now the boolean value is changed 
                                      #  in the PLC.
 
 # NOTE you could also use the read_area and write_area functions.
 # then you can specify an area to read from:
 # https://github.com/gijzelaerr/python-snap7/blob/master/snap7/snap7types.py
 
-from snap7.snap7types import area
+#from snap7.snap7types import area
 
 # play with these functions.
-plc.read_area(area['MK'], dbnumber, start, size)
-plc.write_area(area['MK'], dbnumber, start, size)
+#plc.read_area(area['MK'], dbnumber, start, size)
+#plc.write_area(area['MK'], dbnumber, start, size)
 # read the client source code!
 # and official snap7 documentation
