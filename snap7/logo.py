@@ -89,10 +89,10 @@ class Logo:
         :param size: bytes to read
         :returns: bytearray
         """
-        wordlen = snap7types.S7WLByte
-        type_ = snap7types.wordlen_to_ctypes[wordlen]
+        wordlen = types.S7WLByte
+        type_ = types.wordlen_to_ctypes[wordlen]
         data = (type_ * size)()
-        area = snap7types.S7AreaDB
+        area = types.S7AreaDB
         db_number = 1
 
         logger.debug("start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
