@@ -40,7 +40,6 @@ if plc.get_connected():
     val = plc.read("VW40")
     print(val)
     
-
     print("read V10.0 must be 1 - check: " + str(plc.read("V10.0")))
     print("read V10.3 must be 0 - check: " + str(plc.read("V10.3")))
     print("read V10.7 must be 1 - check: " + str(plc.read("V10.7")))
@@ -48,8 +47,8 @@ if plc.get_connected():
     print("write 480 analog value to VW20")
     #plc.write("VW20", value_2)
     
-    print("read VW20 must be 480 - check:" + str(plc.read("VW20")))
-        
+    print(f"read VW20 must be 480 - check: {str(plc.read('VW20'))}")
+
     print("trigger V10.2")
     #plc.write("V10.2", 0)
     #plc.write("V10.2", 1)
