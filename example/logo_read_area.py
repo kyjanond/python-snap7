@@ -4,6 +4,8 @@ import time
 from snap7.snap7types import S7Object, buffer_type, buffer_size, BlocksList
 from snap7.snap7types import TS7BlockInfo, param_types, cpu_statuses, S7WLByte, S7AreaDB
 from ctypes import byref
+import struct
+
 
 # for setup the Logo connection please follow this link
 # http://snap7.sourceforge.net/logo.html
@@ -24,7 +26,8 @@ if plc.get_connected():
     
     # write some values in VM addresses between 0 and 100
     
-    print(plc.read_area(32,8)) 
+    val = plc.read_area(40,8)
+    print(struct.unpack_from('>4h',val)) 
     
 else:
     logger.error("Conncetion failed")
