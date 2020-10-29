@@ -91,6 +91,7 @@ class Logo:
         """
         wordlen = types.S7WLByte
         type_ = types.wordlen_to_ctypes[wordlen]
+        size = len(data)
         data = (type_ * size)()
         area = types.S7AreaDB
         db_number = 1
