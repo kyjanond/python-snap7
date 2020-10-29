@@ -98,7 +98,7 @@ class Logo:
         size = len(data)
         logger.debug("writing area: start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
         cdata = (type_ * len(data)).from_buffer_copy(data)
-        return self._library.Cli_WriteArea(self.pointer, area, db_number, start,
+        return self.library.Cli_WriteArea(self.pointer, area, db_number, start,
                                            size, wordlen, byref(cdata))
     
     def read_area(self, start, size):
