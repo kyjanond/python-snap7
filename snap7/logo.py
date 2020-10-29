@@ -81,6 +81,26 @@ class Logo:
         check_error(result, context="client")
         return result
     
+    def write_area(self, start, size, data):
+        """
+        Write VM area to siemens Logo
+
+        :param dbnumber: The DB number, only used when area= S7AreaDB
+        :param start: offset to start writing
+        :param data: a bytearray containing the payload
+        """
+        wordlen = types.S7WLByte
+        type_ = types.wordlen_to_ctypes[wordlen]
+        data = (type_ * size)()
+        area = types.S7AreaDB
+        db_number = 1
+
+        size = len(data)
+        logger.debug("writing area: start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
+        cdata = (type_ * len(data)).from_buffer_copy(data)
+        return self._library.Cli_WriteArea(self.pointer, area, db_number, start,
+                                           size, wordlen, byref(cdata))
+    
     def read_area(self, start, size):
         """
         Reads from VM area of Siemens Logo
@@ -95,7 +115,7 @@ class Logo:
         area = types.S7AreaDB
         db_number = 1
 
-        logger.debug("start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
+        logger.debug("reading area: start:%s, wordlen:%s, data-length:%s" % (start, wordlen, len(data)) )
         result = self.library.Cli_ReadArea(self.pointer, area, db_number, start, size, wordlen, byref(data))
         check_error(result, context="client")
         return bytearray(data)

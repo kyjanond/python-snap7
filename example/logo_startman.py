@@ -1,5 +1,5 @@
 import logging
-import snap7
+from .snap7 import *
 import time
 import sys
 
@@ -19,18 +19,14 @@ plc.connect("172.31.1.20",0x3000,0x2000)
 
 if plc.get_connected():
     logger.info("connected")
-    
-    #plc.write("V0",0)
-    plc.write("VW40",910)
+    plc.write_area(0,1,1)
+    #plc.write("VW62",1110) #change precuring time
+    #plc.write("V0.1", 1) #stop oven
+    #plc.write("V0.0", 0) #start oven
     time.sleep(1)
-    print(plc.read("VW40"))
-    #plc.write("V0.3", 1)
-    #plc.write("V0.1", 1)
-    #plc.write("V0.0", 0)
-    time.sleep(1)
-    #plc.write("V0",0)
-    val = str(plc.read("V1104.3"))
-    print(val)
+    #val = str(plc.read("V0.3"))
+    val = str(plc.read("VW1150"))
+    print("Value is {}".format(val))
 
 else:
     logger.error("Conncetion failed")
